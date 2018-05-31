@@ -1,15 +1,15 @@
 
-body{
+body {
   font-family: 'PT Sans', sans-serif;
   padding: 30px;
 }
 
-#header{
-  text-align: center;
-}
-
-#title{
+#title {
   text-align: center;
   font-size: 50px;
   font-weight: 700;
+}
+
+#map {
+  height: 100%;
 }
