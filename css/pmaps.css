@@ -6,14 +6,7 @@ html {
 
 body {
   font-family: 'PT Sans', sans-serif;
-  padding: 30px;
   height: 100%;
-}
-
-#title {
-  text-align: center;
-  font-size: 50px;
-  font-weight: 700;
 }
 
 #map {
