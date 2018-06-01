@@ -1,0 +1,28 @@
+{
+  "mapType": {
+    "id":"Google Maps",
+    "swBound":{
+      "lat":"",
+      "long":""
+    },
+    "neBound":{
+      "lat":"",
+      "long":"-82"
+    },
+    "minZoom": "",
+    "maxZoom": ""
+  },
+  "mapType": {
+    "id":"Nat Geo",
+    "swBound":{
+      "lat":"",
+      "long":""
+    },
+    "neBound":{
+      "lat":"",
+      "long":""
+    },
+    "minZoom": "",
+    "maxZoom": ""
+  }
+}

@@ -47,7 +47,7 @@ body { background: #f4f4f4;}
 	var usgs2013 = new google.maps.ImageMapType({
 		minZoom: 11,
 		maxZoom: 15,
-		getTileUrl: function(coord, zoom) { 
+		getTileUrl: function(coord, zoom) {
 			var proj = map.getProjection();
 			var z2 = Math.pow(2, zoom);
 			var tileXSize = 256 / z2;
@@ -70,7 +70,7 @@ body { background: #f4f4f4;}
 	var usgsStolen = new google.maps.ImageMapType({
 		minZoom: 10,
 		maxZoom: 16,
-		getTileUrl: function(coord, zoom) { 
+		getTileUrl: function(coord, zoom) {
 			var proj = map.getProjection();
 			var z2 = Math.pow(2, zoom);
 			var tileXSize = 256 / z2;
@@ -93,7 +93,7 @@ body { background: #f4f4f4;}
 	var usgsTiff = new google.maps.ImageMapType({
 		minZoom: 11,
 		maxZoom: 15,
-		getTileUrl: function(coord, zoom) { 
+		getTileUrl: function(coord, zoom) {
 			var proj = map.getProjection();
 			var z2 = Math.pow(2, zoom);
 			var tileXSize = 256 / z2;
@@ -116,7 +116,7 @@ body { background: #f4f4f4;}
 	var natGeo = new google.maps.ImageMapType({
 		minZoom: 12,
 		maxZoom: 14,
-		getTileUrl: function(coord, zoom) { 
+		getTileUrl: function(coord, zoom) {
 			var proj = map.getProjection();
 			var z2 = Math.pow(2, zoom);
 			var tileXSize = 256 / z2;
@@ -159,9 +159,9 @@ body { background: #f4f4f4;}
 		map.mapTypes.set('USGS TIFF', usgsTiff);
 		map.mapTypes.set('Nat Geo', natGeo);
 		map.mapTypes.set('USGS', usgsStolen);
-		
+
 // Things above this point deal with the maps. Things below this point deals with the data.
-		
+
 		/*var trailDataLayer = new google.maps.Data();
 		trailDataLayer.loadGeoJson('trails/srw_data.geojson');
 		trailDataLayer.loadGeoJson('trails/graveyard.geojson');
@@ -181,46 +181,46 @@ body { background: #f4f4f4;}
 			infowindow.open(map);
 		});
 		trailDataLayer.setMap(map);*/
-		
+
 		// A data layer to hold all the data people have added
 		var markerLayer = new google.maps.Data();
-		
+
 		// Add everything in the database to the data layer
 		firebase.on("child_added", function(snapshot, prevChildKey) {
 			var latwanted = snapshot.val().lat;
 			var lonwanted = snapshot.val().lon;
 			var geowanted = new google.maps.Data.Point({lat: latwanted, lng: lonwanted});
 			var propswanted = {name: snapshot.val().name, description: snapshot.val().description, category: snapshot.val().category, date: snapshot.val().date};
-			
+
 			markerLayer.add({geometry: geowanted, properties: propswanted});
 		});
-		
+
 		// Color the data layer based on the category of the data, and give each point roll over text
 		markerLayer.setStyle(function(feature) {
 			return ({icon: getDot(feature.getProperty('category')),
 					title: feature.getProperty('description')});
 		});
-		
+
 		// When the data layer is clicked on, display the appropriate data
 		var infowindow = new google.maps.InfoWindow();
 		markerLayer.addListener('click', function(event) {
 			var timeStamp = event.feature.getProperty('date');
 			var markerDescription = event.feature.getProperty('description');
 			var contributorName = event.feature.getProperty('name');
-		
+
 			var content = "<div class='googft-info-window'>"+
 						"<p style='font-size:14px'>"+markerDescription+"</p><br><br>"+
 						"<b>Contributed By:</b> "+contributorName+"<br>"+
 						"<i>"+timeStamp+"</i><br></div>";
-			
+
 			infowindow.setContent(content);
 			infowindow.setPosition(event.feature.getGeometry().get());
 			infowindow.open(map);
 		});
-		
+
 		// Put the data layer on the map
 		markerLayer.setMap(map);
-		
+
 		// Makes a big red pin
 		usersMarker = new google.maps.Marker({
 			position: map.getCenter(),
@@ -230,13 +230,13 @@ body { background: #f4f4f4;}
 			animation: google.maps.Animation.DROP,
 			anchorPoint: new google.maps.Point(0,-30)
 		});
-		
+
 		infoWindow = new google.maps.InfoWindow(); // Makes an info window for showing the data input form.
-		
+
 		google.maps.event.addListener(usersMarker, 'click', showInputFormWindow); // When the user clicks on the big red pin, open up the form for data input.
-		
+
 		google.maps.event.addListener(usersMarker, 'position_changed', function() {infoWindow.close();}); // When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
-		
+
 		// Trails Stuff
 		trailLayer = new google.maps.FusionTablesLayer({
 			  query: {
@@ -254,7 +254,7 @@ body { background: #f4f4f4;}
 			});
 			google.maps.event.addListener(trailLayer, 'click', function(e) {
 			  windowControlTrail(e, infoWindow, map);
-			});		
+			});
 		var trailControlDiv = document.createElement('div');
 		var trailControl = new TrailControl(trailControlDiv, map);
 		trailControlDiv.index = 1;
@@ -285,11 +285,11 @@ body { background: #f4f4f4;}
 		var name = document.getElementById("name").value;
 		var description = document.getElementById("markerDescription").value;
 		var cat = document.getElementById("categories").value;
-		
+
 		var pos = usersMarker.getPosition();
 		var d = new Date();
 		var dateString = (d.getMonth()+1)+"-"+d.getDate()+"-"+d.getFullYear();
-		
+
 		// Adds the data to the database
 		firebase.push({lat: pos.lat(),
 						lon: pos.lng(),
@@ -297,7 +297,7 @@ body { background: #f4f4f4;}
 						description: description,
 						category: cat,
 						date: dateString});
-						
+
 		infoWindow.close(); // If we're saving data, we must be done with the input form, so let's close it.
 	}
 	function getDot(category) // Given the category of a data point, spits out the appropriate color of the data point
@@ -322,7 +322,7 @@ body { background: #f4f4f4;}
 			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAl0lEQVR42mNgQIAoIF4NxGegdCCSHAMzEC91sLH9H9c34X/hqjVg2tLM/D9QfCZMUZqni+v/+odP/2d/+QnHIL6TnT1IYSxI0YHM+YvAEmk//8ExiJ8xdwFI0V6Qooc1u/dhVVS5bSdI0W2iTYoF2Y3NTTYWliBFITDHzwf5LmnyVLDvEiZOhvluGgMaAIXTRmg4rUMOJwARmo9axahWIwAAAABJRU5ErkJggg==";
 		else //darkgrey+
 			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAgElEQVR42mNggAJFRcUWdXX16yoqKs9AtJKSUh0DEmDW0NC44mhr+9/e3h6OHW1s/mtqap4Dq5CXl+91QlMAVwgUV1BQaGdQVVV9iE0BDKupqd1nUFZW/uCARxFQ/i1xJoHsdMTjJqAvG8COB/ruAg7fnUUOBlg43YSG0w3kcAIAxcVqHwlKq6YAAAAASUVORK5CYII=";
-	}	
+	}
 	function windowControlTrail(e, infoWindow, map) {
 		e.infoWindowHtml = "<div class='googft-info-window'>"+
 							"<h1>"+e.row['ns3:name'].value+"</h1>"+
