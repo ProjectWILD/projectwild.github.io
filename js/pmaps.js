@@ -35,12 +35,26 @@ window.initMap = function() {
   		new google.maps.LatLng(35, -84), //sw
   		new google.maps.LatLng(35.8, -82)))
 
+    createMapTypesFromJSON()
     addMarker(map, fishHatch)
 }
 
 function addMarker(map, position){
   return(new google.maps.Marker(
     {position: {lat: position.lat, lng: position.lng}, map: map}));
+}
+
+function createMapTypesFromJSON(){
+  var xobj = new XMLHttpRequest();
+      xobj.overrideMimeType("application/json");
+  xobj.open('GET', 'data/mapTypes.json', true); // Replace 'my_data' with the path to your file
+  xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+          // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+          callback(xobj.responseText);
+        }
+  };
+  xobj.send(null);
 }
 
 function addMapType(mapName, minZoom, maxZoom){
