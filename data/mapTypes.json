@@ -12,7 +12,8 @@
         "long": -81.97995814172361
       },
       "minZoom": 12,
-      "maxZoom": 14
+      "maxZoom": 14,
+      "fileType":".jpg"
     },
     {
       "name": "USGS 2013",
@@ -26,7 +27,8 @@
         "long": -82.625
       },
       "minZoom": 11,
-      "maxZoom": 15
+      "maxZoom": 15,
+      "fileType":".png"
     },
     {
       "name": "USGS TIFF",
@@ -40,7 +42,8 @@
         "long": -82.61437567559813
       },
       "minZoom": 11,
-      "maxZoom": 15
+      "maxZoom": 15,
+      "fileType":".png"
     },
     {
       "name": "USGS",
@@ -54,7 +57,8 @@
         "long": -82.2638002285156
       },
       "minZoom": 10,
-      "maxZoom": 16
+      "maxZoom": 16,
+      "fileType":".png"
     }
   ]
 }

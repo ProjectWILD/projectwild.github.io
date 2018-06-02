@@ -34,7 +34,8 @@ window.initMap = function() {
     function(snapshot){
       mapTypes = snapshot.val().map(mapType =>
         createMapType(mapType.name, mapType.id, mapType.minZoom, mapType.maxZoom,
-          createMapBounds(mapType.swBound.lat,mapType.swBound.long, mapType.neBound.lat, mapType.neBound.long)
+          createMapBounds(mapType.swBound.lat,mapType.swBound.long, mapType.neBound.lat, mapType.neBound.long),
+          mapType.fileType
         )
       )
         console.log(snapshot.val()[0].neBound.lat + " " + snapshot.val()[0].neBound.lng);
@@ -74,20 +75,6 @@ function addMarker(map, position) {
 }
 
 
-function fetch(){
-  firebase.database().ref().child("mapTypes").once('value',
-  function(snapshot){
-    mapTypes = snapshot.val().map(mapType =>
-      createMapType(mapType.name, mapType.id, mapType.minZoom, mapType.maxZoom,
-        createMapBounds(mapType.swBound[0],mapType.swBound[1], mapType.neBound[0], mapType.neBound[1])
-      )
-    );
-    mapTypes.forEach(map => console.log(map.name));
-  }
-)
-
-}
-
 function createMapBounds(swLat, swLng, neLat, neLng){
   return(
     new google.maps.LatLngBounds(
@@ -97,7 +84,7 @@ function createMapBounds(swLat, swLng, neLat, neLng){
   );
 }
 
-function createMapType(mapName, mapID, minZoom, maxZoom, bounds) {
+function createMapType(mapName, mapID, minZoom, maxZoom, bounds, imgFileType) {
   return (
     new google.maps.ImageMapType({
       minZoom: minZoom,
@@ -117,13 +104,13 @@ function createMapType(mapName, mapID, minZoom, maxZoom, bounds) {
         console.log("maxZoom " + maxZoom);
 
         if (bounds.intersects(tileBounds) && (minZoom <= zoom) && (zoom <= maxZoom))
-          return "historic_pmaps/" + mapID + "/" + zoom + "/" + coord.x + "/" + coord.y + ".jpg";
+          return "historic_pmaps/" + mapID + "/" + zoom + "/" + coord.x + "/" + coord.y + imgFileType;
         else
-          return "none.png";
+          return "historic_pmaps/" + "none.png";
       },
       tileSize: new google.maps.Size(tileSizePX, tileSizePX),
       name: mapName,
       alt: mapName,
-      isPng: true
+      isPng: imgFileType === ".png"
     }));
 }
