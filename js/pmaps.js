@@ -34,8 +34,11 @@ window.initMap = function() {
     function(snapshot){
       mapTypes = snapshot.val().map(mapType =>
         createMapType(mapType.name, mapType.id, mapType.minZoom, mapType.maxZoom,
-          createMapBounds(mapType.swBound[0],mapType.swBound[1], mapType.neBound[0], mapType.neBound[1])
-        ))
+          createMapBounds(mapType.swBound.lat,mapType.swBound.long, mapType.neBound.lat, mapType.neBound.long)
+        )
+      )
+        console.log(snapshot.val()[0].neBound.lat + " " + snapshot.val()[0].neBound.lng);
+        console.log(snapshot.val());
         console.log("map bounds created");
         console.log(mapTypes)
       createMap();
@@ -106,6 +109,13 @@ function createMapType(mapName, mapID, minZoom, maxZoom, bounds) {
           proj.fromPointToLatLng(new google.maps.Point(coord.x * tileLength, (coord.y + 1) * tileLength)),
           proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileLength, coord.y * tileLength))
         );
+        console.log(bounds);
+        console.log(tileBounds);
+        console.log(bounds.intersects(tileBounds));
+        console.log("zoom " + zoom);
+        console.log("minZoom " + minZoom);
+        console.log("maxZoom " + maxZoom);
+
         if (bounds.intersects(tileBounds) && (minZoom <= zoom) && (zoom <= maxZoom))
           return "historic_pmaps/" + mapID + "/" + zoom + "/" + coord.x + "/" + coord.y + ".jpg";
         else
