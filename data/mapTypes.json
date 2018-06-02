@@ -1,60 +1,60 @@
-  {"id": "Google Maps",
-    "swBound": {
-      "lat": 35,
-      "long": -84
+{
+  "mapTypes": [
+    {
+      "name": "Nat Geo",
+      "id": "natGeo",
+      "swBound": {
+        "lat": 35,
+        "long": -84
+      },
+      "neBound": {
+        "lat": 35.81772435462227,
+        "long": -81.97995814172361
+      },
+      "minZoom": 12,
+      "maxZoom": 14
     },
-    "neBound": {
-      "lat": 35.8,
-      "long": -82
+    {
+      "name": "USGS 2013",
+      "id": "usgs2013",
+      "swBound": {
+        "lat": 35.25,
+        "long": -83
+      },
+      "neBound": {
+        "lat": 35.5,
+        "long": -82.625
+      },
+      "minZoom": 11,
+      "maxZoom": 15
     },
-    "minZoom": 11,
-    "maxZoom": 15
-  }, {
-    "id": "Nat Geo",
-    "swBound": {
-      "lat": 35,
-      "long": -84
+    {
+      "name": "USGS TIFF",
+      "id": "usgsTiff",
+      "swBound": {
+        "lat": 35.10503944154214,
+        "long": -83.01039847222899
+      },
+      "neBound": {
+        "lat": 35.50779134029307,
+        "long": -82.61437567559813
+      },
+      "minZoom": 11,
+      "maxZoom": 15
     },
-    "neBound": {
-      "lat": 35.81772435462227,
-      "long": -81.97995814172361
-    },
-    "minZoom": 12,
-    "maxZoom": 14
-  }, {
-    "id": "USGS 2013",
-    "swBound": {
-      "lat": 35.25,
-      "long": -83
-    },
-    "neBound": {
-      "lat": 35.5,
-      "long": -82.625
-    },
-    "minZoom": 11,
-    "maxZoom": 15
-  }, {
-    "id": "USGS TIFF",
-    "swBound": {
-      "lat": 35.10503944154214,
-      "long": -83.01039847222899
-    },
-    "neBound": {
-      "lat": 35.50779134029307,
-      "long": -82.61437567559813
-    },
-    "minZoom": 11,
-    "maxZoom": 15
-  }, {
-    "id": "USGS Stolen",
-    "swBound": {
-      "lat": 34.88696759970738,
-      "long": -83.31711443749998
-    },
-    "neBound": {
-      "lat": 35.746423376157786,
-      "long": -82.2638002285156
-    },
-    "minZoom": 10,
-    "maxZoom": 16
-  }
+    {
+      "name": "USGS",
+      "id": "usgsStolen",
+      "swBound": {
+        "lat": 34.88696759970738,
+        "long": -83.31711443749998
+      },
+      "neBound": {
+        "lat": 35.746423376157786,
+        "long": -82.2638002285156
+      },
+      "minZoom": 10,
+      "maxZoom": 16
+    }
+  ]
+}

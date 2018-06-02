@@ -12,6 +12,20 @@
 
 <body>
   <div id="map"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDXZQmZMXy2Wqtfr3HEciFkRL6-77fHsCc",
+    authDomain: "pmaps-1527652279597.firebaseapp.com",
+    databaseURL: "https://pmaps-1527652279597.firebaseio.com",
+    projectId: "pmaps-1527652279597",
+    storageBucket: "pmaps-1527652279597.appspot.com",
+    messagingSenderId: "1030652255952"
+  };
+  firebase.initializeApp(config);
+</script>
   <script src="js/pmaps.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrP7GqZcoXfumM0y4SvILLX1WDucGeC2A&callback=initMap" async defer></script>
 </body>

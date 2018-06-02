@@ -1,5 +1,7 @@
 //global variable map. Still trying to write in functional style though
 var map;
+var mapTypes;
+
 //Used for testing markers
 var fishHatch = {
   lat: 35.285472,
@@ -8,7 +10,6 @@ var fishHatch = {
 var tileSizePX = 256;
 var defaultZoom = 13;
 
-var map;
 var mapOpts = {
   //  streetViewControl: true,
   //  mapTypeId: 'Nat Geo',
@@ -16,35 +17,48 @@ var mapOpts = {
   zoom: defaultZoom,
 
     mapTypeControlOptions:{
-      mapTypeIds: [ 'Nat Geo'
-      //  'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
+      mapTypeIds: [ 'Nat Geo',
+        'USGS 2013', 'USGS TIFF', 'USGS'
       //  google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
       //  google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
       ]
     }
 }
 
+
+
 //Adding to global scope because needs to be accessed fast due to async load of Google Maps api
 //Reference: https://stackoverflow.com/questions/34466718/googlemaps-does-not-load-on-page-load
 window.initMap = function() {
-   map = new google.maps.Map(
-    document.getElementById('map'), mapOpts);
-
-  //init map bounds
-  var bounds = new Map();
-  bounds.set("name", new google.maps.LatLngBounds(
-    new google.maps.LatLng(35, -84), //sw
-    new google.maps.LatLng(35.8, -82)))
-
-  addMarker(map, fishHatch);
-
-  var bounds = new google.maps.LatLngBounds(
-		new google.maps.LatLng(35, -84),
-		new google.maps.LatLng(35.81772435462227, -81.97995814172361));
-  var natGeo = createMapType("Nat Geo", "natGeo", 12, 14, bounds);
-
-  map.mapTypes.set('Nat Geo', natGeo)
+  firebase.database().ref().child("mapTypes").once('value').then(
+    function(snapshot){
+      mapTypes = snapshot.val().map(mapType =>
+        createMapType(mapType.name, mapType.id, mapType.minZoom, mapType.maxZoom,
+          createMapBounds(mapType.swBound[0],mapType.swBound[1], mapType.neBound[0], mapType.neBound[1])
+        ))
+        console.log("map bounds created");
+        console.log(mapTypes)
+      createMap();
+    },
+    function(error){
+      console.error(error);
+    });
 }
+
+function createMap(){
+    map = new google.maps.Map(
+      document.getElementById('map'), mapOpts);
+
+      console.log("check mapTypes");
+    mapTypes.forEach(type => map.mapTypes.set(type.name, type));
+
+    //init map bounds
+    var bounds = new Map();
+    bounds.set("name", new google.maps.LatLngBounds(
+      new google.maps.LatLng(35, -84), //sw
+      new google.maps.LatLng(35.8, -82)))
+}
+
 
 function addMarker(map, position) {
   return (new google.maps.Marker({
@@ -56,8 +70,28 @@ function addMarker(map, position) {
   }));
 }
 
-function createMapTypesFromJSON() {
-  JSON.parse('{"id": "Google Maps","swBound": {"lat": 35,"long": -84},"neBound": {"lat": 35.8,"long": -82},"minZoom": 11,"maxZoom": 15}');
+
+function fetch(){
+  firebase.database().ref().child("mapTypes").once('value',
+  function(snapshot){
+    mapTypes = snapshot.val().map(mapType =>
+      createMapType(mapType.name, mapType.id, mapType.minZoom, mapType.maxZoom,
+        createMapBounds(mapType.swBound[0],mapType.swBound[1], mapType.neBound[0], mapType.neBound[1])
+      )
+    );
+    mapTypes.forEach(map => console.log(map.name));
+  }
+)
+
+}
+
+function createMapBounds(swLat, swLng, neLat, neLng){
+  return(
+    new google.maps.LatLngBounds(
+      new google.maps.LatLng(swLat, swLng),
+      new google.maps.LatLng(neLat, neLng)
+    )
+  );
 }
 
 function createMapType(mapName, mapID, minZoom, maxZoom, bounds) {
