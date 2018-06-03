@@ -11,16 +11,16 @@ var tileSizePX = 256;
 var defaultZoom = 13;
 
 var mapOpts = {
-  //  streetViewControl: true,
-  //  mapTypeId: 'Nat Geo',
+  streetViewControl: true,
+  mapTypeId: 'Nat Geo',
   center: fishHatch,
   zoom: defaultZoom,
 
     mapTypeControlOptions:{
       mapTypeIds: [ 'Nat Geo',
-        'USGS 2013', 'USGS TIFF', 'USGS'
-      //  google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
-      //  google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
+        'USGS 2013', 'USGS TIFF', 'USGS',
+        'roadmap', 'satellite',
+        'hybrid', 'terrain'
       ]
     }
 }
@@ -38,10 +38,6 @@ window.initMap = function() {
           mapType.fileType
         )
       )
-        console.log(snapshot.val()[0].neBound.lat + " " + snapshot.val()[0].neBound.lng);
-        console.log(snapshot.val());
-        console.log("map bounds created");
-        console.log(mapTypes)
       createMap();
     },
     function(error){
@@ -53,7 +49,6 @@ function createMap(){
     map = new google.maps.Map(
       document.getElementById('map'), mapOpts);
 
-      console.log("check mapTypes");
     mapTypes.forEach(type => map.mapTypes.set(type.name, type));
 
     //init map bounds
@@ -61,6 +56,7 @@ function createMap(){
     bounds.set("name", new google.maps.LatLngBounds(
       new google.maps.LatLng(35, -84), //sw
       new google.maps.LatLng(35.8, -82)))
+
 }
 
 
@@ -96,12 +92,6 @@ function createMapType(mapName, mapID, minZoom, maxZoom, bounds, imgFileType) {
           proj.fromPointToLatLng(new google.maps.Point(coord.x * tileLength, (coord.y + 1) * tileLength)),
           proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileLength, coord.y * tileLength))
         );
-        console.log(bounds);
-        console.log(tileBounds);
-        console.log(bounds.intersects(tileBounds));
-        console.log("zoom " + zoom);
-        console.log("minZoom " + minZoom);
-        console.log("maxZoom " + maxZoom);
 
         if (bounds.intersects(tileBounds) && (minZoom <= zoom) && (zoom <= maxZoom))
           return "historic_pmaps/" + mapID + "/" + zoom + "/" + coord.x + "/" + coord.y + imgFileType;
