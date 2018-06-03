@@ -1,7 +1,30 @@
-form {
-  padding: 30px;
+body {
+  padding: 60px;
 }
 
-label {
-  text-weight: 700;
+.section{
+    font: normal 20px 'Bitter', serif;
+    color: #2F4550;
+    margin-bottom: 5px;
+}
+
+.section span {
+    background: #2E933C;
+    padding: 5px 10px 5px 10px;
+    position: absolute;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    font-size: 14px;
+    margin-left: -45px;
+    color: #fff;
+    margin-top: -3px;
+}
+
+#submit {
+  background-color: #2E933C;
+}
+
+#title {
+  color: #2E933C;
+  font: 30px 'Bitter', serif;
 }
