@@ -10,18 +10,30 @@
 </head>
 
 <body>
-  <h3 id="title">Add a Marker!</h3> 
+  <h3 id="title">Add a Marker!</h3>
   <form class="addMarker" action="index.html" method="post">
-    <div class="form-group">
+    <div class="form-group wrapinput">
       <div class = "section"><span>1</span>Your name</div>
       <input type="text" class="form-control" id="name" name="name" placeholder="Who you be?">
     </div>
-    <div class="form-group">
+    <div class="form-group wrapinput">
       <div class = "section"><span>2</span>Marker Description</div>
-      <input type="text" class="form-control" id="markerDescription" name="makerDesc" placeholder="What's up with this spot in Pisgah?">
+     <textarea class="form-control" rows="4" id="markerDesc" placeholder="What's up with this spot?"></textarea>
     </div>
-    <div class="form-group">
-      <div class = "section"><span>3</span>Category</div>
+    <div class ="form-group wrapinput">
+      <div class = "section"><span>3</span>Relevant Trips</div>
+      <div class="checkbox">
+        <label><input type="checkbox" value="august">August</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" value="march">March</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" value="step">STEP</label>
+      </div>
+    </div>
+    <div class="form-group wrapinput">
+      <div class = "section"><span>4</span>Category</div>
       <select name = "category">
           <option value="vam">VAM</option>
           <option value="water">Water</option>
